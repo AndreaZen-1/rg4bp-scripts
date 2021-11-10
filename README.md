@@ -14,6 +14,6 @@ The main script is `loaderscript.py`, its main functions are:
 1. Order the models.py with the `order_models.py` script
 1. Run the table_loader script to populate the tables (`--dir tables_folder/`)
 
-### Future improves
+### To-Dos
 - [ ] Some prints and outputs have a comment like `# VERBOSE?` and could be printed to screen only if a verbose flag is passed (like the sql one)
 - [ ] When `--dir` is used, should I tell the user if some of the tables specified in "sequence" are missing from the folder?
