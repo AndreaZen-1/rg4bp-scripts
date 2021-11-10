@@ -28,23 +28,23 @@ saveSQL = False
 # The names are those of the table in the database, taken from the file header.
 sequence = ["reference",
 	"technique",
-	"regionType",
+	"regiontype",
 	"disease",
-	"rnaBiology",
-	"biologyFunction",
+	"rnabiology",
+	"biologyfunction",
 	"organism",
 	"gene",
 	"transcript",
 	"rg4bp",
-	"bindingSite",
+	"bindingsite",
 	"rg4",
-	"rg4bpToRg4",
-	"rg4bpToPhenotype",
-	"diseaseToGene",
-	"rg4ToTranscript",
-	"rg4ToGene",
-	"bindingSiteToTranscript",
-	"bindingSiteToGene"]
+	"rg4bptorg4",
+	"rg4bptophenotype",
+	"diseasetogene",
+	"rg4totranscript",
+	"rg4togene",
+	"bindingsitetotranscript",
+	"bindingsitetogene"]
 
 
 # --- IMPORTS ---
