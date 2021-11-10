@@ -8,11 +8,11 @@ The main script is `loaderscript.py`, its main functions are:
  - Populating the tables of the database by a single file or a directory (again, using a list in the script)
 
 ## Usage example:
-0. Insert the data to access your POSTGRES database in the [ SETTINGS ]
-1. Remove and reload the tables on the database with `--reloadTables models.txt`
-1. Inspect the database with django (`python manage.py inspectdb`) -> `models.py`
-2. Order the models.py with the `order_models.py` script
-3. Run the table_loader script to populate the tables (`--dir tables_folder/`)
+ 0. Insert the data to access your POSTGRES database in the [ SETTINGS ]
+ 1. Remove and reload the tables on the database with `--reloadTables models.txt`
+ 2. Inspect the database with django (`python manage.py inspectdb`) -> `models.py`
+ 3. Order the models.py with the `order_models.py` script
+ 4. Run the table_loader script to populate the tables (`--dir tables_folder/`)
 
 ### Future improves
 [ ] Some prints and outputs have a comment like `# VERBOSE?` and could be printed to screen only if a verbose flag is passed (like the sql one)
