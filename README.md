@@ -15,5 +15,5 @@ The main script is `loaderscript.py`, its main functions are:
  4. Run the table_loader script to populate the tables (`--dir tables_folder/`)
 
 ### Future improves
-[ ] Some prints and outputs have a comment like `# VERBOSE?` and could be printed to screen only if a verbose flag is passed (like the sql one)
-[ ] When `--dir`, should I tell the user if some of the tables specified in "sequence" are missing from the folder?
+[] Some prints and outputs have a comment like `# VERBOSE?` and could be printed to screen only if a verbose flag is passed (like the sql one)
+[] When `--dir`, should I tell the user if some of the tables specified in "sequence" are missing from the folder?
