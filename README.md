@@ -17,3 +17,4 @@ The main script is `loaderscript.py`, its main functions are:
 ### To-Dos
 - [ ] Some prints and outputs have a comment like `# VERBOSE?` and could be printed to screen only if a verbose flag is passed (like the sql one)
 - [ ] When `--dir` is used, should I tell the user if some of the tables specified in "sequence" are missing from the folder?
+- [ ] Should be able to make the upload of large files faster by using the `psycopg2.extras.execute_values()` execution helper. Need to benchmark.
