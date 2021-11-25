@@ -135,7 +135,7 @@ def loader(inputFile):
 				
 				# -- UPSERT --
 				# ============
-        # To understand why the replace, see the block of comments below
+        			# To understand why the replace, see the block of comments below
 				valuesFromLine = line.strip().replace("'", "prime").split("\t")
 				
 				whereSql = ["{}='{}' AND ".format(col, entr) for col, entr in zip(keyColumns, [valuesFromLine[i] for i in pos])]
@@ -145,7 +145,7 @@ def loader(inputFile):
 				#     that does NOT work, need singlequotes for the sql to work apparently..
 				# to escape ' in SQL you apparently have to double them: ''
 				#     did NOT work. 
-        # Changed all ' into "prime" and good like that.
+        			# Changed all ' into "prime" and good like that.
 				setSql = ["{}='{}',".format(col,entr) for col,entr in zip(tableColumns, valuesFromLine)]
 				setSql = "".join(setSql)[:-1] # remove last comma
 
@@ -169,7 +169,7 @@ def sequenceLoad(fileNames, sequence):
 	Then pass the files one by one, in the correct order, to the loader function.
 
 	NOTE: In the directory there MUST be only one file for each table!
-			(haven't tested what happens, probably the table gets re-loaded)
+		(haven't tested what happens, probably the table gets re-loaded)
 	"""
 
 	# check if the file resembles a table file, if it does
@@ -209,10 +209,10 @@ def closeConnection():
 # Delete all tables from the database
 def deleteTables(cursor):
 	"""
-  Deletes the existing tables and all their contents
-  """
+	Deletes the existing tables and all their contents
+	"""
 	
-  print("\nRemoving tables...")
+	print("\nRemoving tables...")
 
 	for table in sequence:
 		sql = "DROP TABLE {} CASCADE;".format(table)		
@@ -233,10 +233,10 @@ def deleteTables(cursor):
 # Reload all tables from model.txt
 def reloadTables(modelsfile):
 	"""
-  Reloads the empty tables from a models.txt file
-  """
+	Reloads the empty tables from a models.txt file
+	"""
 	
-  print("\nReloading tables...")	
+	print("\nReloading tables...")	
 	comm = popen("PGPASSWORD={} psql --host={} -U {} -d {}  < {}".format(args.pwd, args.host, args.user, args.dbname, modelsfile))
 	print(comm.read())	# VERBOSE?
 
