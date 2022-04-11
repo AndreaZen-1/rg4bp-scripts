@@ -82,7 +82,7 @@ def executeQuery(cursor, sql, logSkip = False):
 # Single table loader
 def loader(inputFile):
 	"""
-	Uploads the table in the inputFile with an UPSERT function to the POSTRGES database
+	Uploads the table in the inputFile with an UPSERT function to the POSTGRES database
 	"""
 
 	global outfile
@@ -164,9 +164,9 @@ def loader(inputFile):
 def sequenceLoad(fileNames, sequence):
 	"""
 	Gets a list of fileNames as input, and a sequence with the order to follow.
-	Checks all the provided files, if it seems like a table file (headers)
-	keeps it in a queue to be loaded.
-	Then pass the files one by one, in the correct order, to the loader function.
+	Checks all the provided files in the list, if a file seems like a table file (headers)
+	it is kept in a queue to be loaded.
+	Then the files are passed one by one, in the correct order, to the loader function.
 
 	NOTE: In the directory there MUST be only one file for each table!
 		(haven't tested what happens, probably the table gets re-loaded)
@@ -273,7 +273,7 @@ if __name__ == "__main__":
 	mode.add_argument('-D', '--dir', type=str,
 		help="Detect and load all the tables in the directory", required=False)
 	mode.add_argument('--reloadTables', metavar="modelsfile", type=str,
-		help="Delete all tables and reload them from the models file", required=False)
+		help="Delete all tables and reload them from the models.txt file", required=False)
 	optional.add_argument('--saveSQL', action='store_true', 
 		help="Save a logFile of the SQL commands executed by the script, ONE FOR EACH fileTable", required=False)
 
@@ -319,14 +319,15 @@ if __name__ == "__main__":
 
 	# If --reloadtables, we have the SQL models in modelsfile
 	if args.reloadTables:
-		# Warn user that the tables will be deleted from the database
-		if input("All the tables in the database will be removed, are you sure you want to continue? [y/N]: ") in ["y", "Y", "yes", "Yes"]:
+		# Warn user that the tables and their contents will be deleted from the database
+		if input("All the tables in the database and their contents will be removed, are you sure you want to continue? [y/N]: ") in ["y", "Y", "yes", "Yes"]:
 			# Execute main function
 			deleteTables(cursor)
 		else:
 			print("Understood. Aborting.")
 			exit(1)
 		
+		# shouldn't this block be moved inside the if statement above?!
 		# Load the new tables in the databse
 		reloadTables(args.reloadTables)
 
