@@ -1,15 +1,7 @@
 """
 	Script to interact with a POSTGRES database.
   Remember to check the SETTINGS section to insert your database access data.
-	
-  
-  TODO
-	[ ] Some prints and outputs have a comment like `# VERBOSE?` and could be 
-		printed to screen only if a verbose flag is passed (like the sql one)
-	[ ] When `--dir`, should I tell the user if some of the tables specified in "sequence"
-		are missing from the folder?
-	[ ] Should be able to make the upload of large files faster by using the
-		`psycopg2.extras.execute_values()` execution helper. Need to benchmark.
+
 """
 
 
@@ -310,6 +302,9 @@ if __name__ == "__main__":
 	if args.dir:
 		if not args.dir.endswith("/"):
 			args.dir += "/"
+		else:
+			pass
+		
 		if not path.isdir(args.dir):
 			print("\nThe provided directory was not found, please check that the name was correct.")
 			closeConnection()
