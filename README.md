@@ -7,6 +7,11 @@ The main script is `loaderscript.py`, its main functions are:
 - Loading tables in the database from a models.txt file (with the SQL definition of the tables)
 - Populating the tables of the database by a single file or a directory (again, using a list in the script)
 
+## Structure of a table file
+A "table file" is a TAB-separated file (usually .txt) containing the information to be loaded in a certain table in the database.
+In order for the script to correctly load the data respecting the keys and relationships, those files need to follow a certain structure:
+- 
+
 ## Usage example:
 1. Insert the data to access your POSTGRES database in the [ SETTINGS ]
 1. Remove and reload the tables on the database with `--reloadTables models.txt`
