@@ -43,10 +43,11 @@ sequence = ["reference",
 
 # --- IMPORTS ---
 
-from os import path, listdir, popen
+from os import path, listdir, popen, rename, mkdir, replace
 from sys import exit
 import argparse
 import psycopg2
+from chardet import detect
 
 
 # --- FUNCTIONS ---
@@ -71,6 +72,52 @@ def executeQuery(cursor, sql, logSkip = False):
 		closeConnection()
 		exit(1)
 
+def getEncoding(file):
+	with open(file, 'rb') as f:
+		rawdata = f.read()
+	return detect(rawdata)['encoding']
+
+def convertEncoding(file, fromCodec):
+	toCodec = "utf-8"
+	try:
+		with open(infile, 'r', encoding=fromCodec) as i, open("tmpfile", 'w', encoding=toCodec) as o:
+			while True:
+				contents = i.read()
+				if not contents:
+					break
+				o.write(contents)
+			
+			# save old encoded file in a new directory
+			if not path.isdir("./oldEncodeTables/"):
+				mkdir("oldEncodeTables")
+			else:
+				pass
+			
+			# replace works as rename but replaces the destination file if already present
+			os.replace(infile, "oldEncodeTables/" + infile[:-4] + "_oldEnc.txt") # move old encoding file
+			os.rename("tmpfile", infile) # rename new encoding as old one
+	
+	except UnicodeDecodeError:
+		print('Decode Error')
+	except UnicodeEncodeError:
+		print('Encode Error')
+				
+
+def checkTableFile(inputFile):
+	"""
+	Given a "table file" as input, checks that the encoding and the headers are correct.
+	This will be used before loading a table to the database with the loader() function.
+	"""
+	
+	# Check file encoding
+	fromCodec = getEncoding(inputFile)
+	
+	if fromCodec.lower() not in ["ascii", "utf-8"]:
+		print("The table file {} is encoded as {}, converting it to utf-8 compatible.".format())
+		convertEncoding(inputFile, fromCodec)
+	
+	
+	
 # Single table loader
 def loader(inputFile):
 	"""
@@ -89,6 +136,13 @@ def loader(inputFile):
 	print("")
 
 	with open(inputFile, "r") as infile:
+		#
+		# Here I should call the checkTableFile function, if it doesn't give any error
+		# then I can proceed here with the upsert.
+		# So I'd just skip the header lines and continue with the for line in infile: ...
+		# but I still need to parse the information from the header... maybe just do it once
+		# by reading the first two lines and then starting the loop?
+		#
 		for line in infile:
 			# get keyColumns and the columnNames of the file
 			if line.startswith('#'):
