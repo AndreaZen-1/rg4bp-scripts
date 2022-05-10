@@ -10,7 +10,16 @@ The main script is `loaderscript.py`, its main functions are:
 ## Structure of a table file
 A "table file" is a TAB-separated file (usually .txt) containing the information to be loaded in a certain table in the database.
 In order for the script to correctly load the data respecting the keys and relationships, those files need to follow a certain structure:
-- 
+```
+#tableName /TAB/ keyName
+@column1 /TAB/ column2 /TAB/ column3 etc...
+data /TAB/ data /TAB/ data etc...
+...
+```
+The first two lines are referred as "headers", key header and column header, while all the following lines contain the data that needs to be uploaded in the databse.
+Notice that the data is divided by columns and needs to respect the definition of the column in the table (SQL definition in the models.txt file).
+Also, the information in the headers (keys and column names) will be compared with the keys and columns in the corresponding table in the database. If the keys are not present or the columns do not match you will be notified.
+
 
 ## Usage example:
 1. Insert the data to access your POSTGRES database in the [ SETTINGS ]
