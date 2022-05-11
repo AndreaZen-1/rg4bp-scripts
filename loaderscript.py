@@ -72,49 +72,11 @@ def executeQuery(cursor, sql, logSkip = False):
 		closeConnection()
 		exit(1)
 
-def getEncoding(file):
-	with open(file, 'rb') as f:
-		rawdata = f.read()
-	return detect(rawdata)['encoding']
-
-def convertEncoding(file, fromCodec):
-	toCodec = "utf-8"
-	try:
-		with open(infile, 'r', encoding=fromCodec) as i, open("tmpfile", 'w', encoding=toCodec) as o:
-			while True:
-				contents = i.read()
-				if not contents:
-					break
-				o.write(contents)
-			
-			# save old encoded file in a new directory
-			if not path.isdir("./oldEncodeTables/"):
-				mkdir("oldEncodeTables")
-			else:
-				pass
-			
-			# replace works as rename but replaces the destination file if already present
-			os.replace(infile, "oldEncodeTables/" + infile[:-4] + "_oldEnc.txt") # move old encoding file
-			os.rename("tmpfile", infile) # rename new encoding as old one
-	
-	except UnicodeDecodeError:
-		print('Decode Error')
-	except UnicodeEncodeError:
-		print('Encode Error')
-				
-
+# function to check headers etc once per file
 def checkTableFile(inputFile):
 	"""
-	Given a "table file" as input, checks that the encoding and the headers are correct.
-	This will be used before loading a table to the database with the loader() function.
+	Description
 	"""
-	
-	# Check file encoding
-	fromCodec = getEncoding(inputFile)
-	
-	if fromCodec.lower() not in ["ascii", "utf-8"]:
-		print("The table file {} is encoded as {}, converting it to utf-8 compatible.".format())
-		convertEncoding(inputFile, fromCodec)
 	
 	
 	
@@ -158,7 +120,8 @@ def loader(inputFile):
 				if runOnce == 0:
 					# checks presence of key and column headers
 					if len(keyColumns) == 0 or len(columnNames) == 0:
-						print("""\tERROR: No keys or columns were provided, please check that the file has:\n\t#tableName\tkey1\tkey2 etc.\n\t@column1\tcolumn2\column3 etc.\n""")
+						print("""\tERROR: No keys or columns were provided, please check that the file has:\n\t#tableName\tkey1\tkey2 etc.\n\t@column1\tcolumn2\column3 etc.""")
+						print("If everything seems okay with the file, the problem may be a wrong encoding.\nPlease refer to the convertEncoding.py script to automatically detect and alter the encoding of the table file and retry.\n")
 						exit(1)
 					
 					# checks that database table columns and provided ones are the same number
