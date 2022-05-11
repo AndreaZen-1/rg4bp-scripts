@@ -32,7 +32,7 @@ def getEncoding(file):
 def convertEncoding(file, fromCodec):
 	toCodec = "utf-8"
 	try:
-		with open(infile, 'r', encoding=fromCodec) as i, open("tmpfile", 'w', encoding=toCodec) as o:
+		with open(file, 'r', encoding=fromCodec) as i, open("tmpfile", 'w', encoding=toCodec) as o:
 			while True:
 				contents = i.read() # could add a chunkSize here for very big files
 				if not contents:
@@ -46,8 +46,8 @@ def convertEncoding(file, fromCodec):
 				pass
 			
 			# replace works as rename but replaces the destination file if already present
-			replace(infile, "oldEncodeTables/" + infile[:-4] + "_oldEnc.txt") # move old encoding file
-			rename("tmpfile", infile) # rename new encoding as old one
+			replace(file, "oldEncodeTables/" + file[:-4] + "_oldEnc.txt") # move old encoding file
+			rename("tmpfile", file) # rename new encoding as old one
 			print("The conversion was successful, the file {} should now be in a correct encoding.")
 			exit(0)
 	
@@ -76,7 +76,7 @@ if __name__ == "__main__":
 	args = parser.parse_args()
 	
 	# check that the passed file is correct
-	if not os.path.isfile(path):
+	if not path.isfile(path):
 		print("The provided file was not found, please check that the name was correct.")
 		exit(1)
 	else:
@@ -89,8 +89,7 @@ if __name__ == "__main__":
 		if fromCodec not in ["utf-8", "ascii"]:
 			print("Converting the file...")
 			convertEncoding(args.file, fromCodec)
-			print("Done!")
-			exit(0)
+
 		else:
 			print("This file should already be correct.")
 			exit(1)
