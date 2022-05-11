@@ -12,7 +12,7 @@
 #
 # Maybe a faster way to do this would be to use the file command from bash
 # and check the already detected encoding. 
-# Maybe iconv -f from_encoding -t to_encoding could be use for the conversion, BUT
+# Maybe iconv -f from_encoding -t to_encoding could be used for the conversion, BUT
 # this is Linux specific, while this script should work on all systems.
 #
 
