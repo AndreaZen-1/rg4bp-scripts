@@ -67,7 +67,7 @@ if __name__ == "__main__":
 	description="""
  Welcome to the convertEncoding script.
  You only need to pass to this script the "table file" you think is in the wrong encoding
- and it try to convert it in a working one.""", add_help=True)
+ and it will try to convert it to a working one.""", add_help=True)
 
 	# file to be converted
 	parser.add_argument('-f','--file', action='store', type=str, required=True,
