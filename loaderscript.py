@@ -18,6 +18,7 @@ pwd = ""
 host = "localhost"
 saveSQL = False
 
+
 # Sequence used to determine the tables order when loading from a folder.
 # The names are those of the table in the database, taken from the file header.
 sequence = ["reference",
@@ -41,6 +42,7 @@ sequence = ["reference",
 	"bindingsitetogene"]
 
 
+
 # --- IMPORTS ---
 
 from os import path, listdir, popen, rename, mkdir, replace
@@ -48,6 +50,7 @@ from sys import exit
 import argparse
 import psycopg2
 from chardet import detect
+
 
 
 # --- FUNCTIONS ---
@@ -72,14 +75,7 @@ def executeQuery(cursor, sql, logSkip = False):
 		closeConnection()
 		exit(1)
 
-# function to check headers etc once per file
-def checkTableFile(inputFile):
-	"""
-	Description
-	"""
-	
-	
-	
+
 # Single table loader
 def loader(inputFile):
 	"""
@@ -99,11 +95,9 @@ def loader(inputFile):
 
 	with open(inputFile, "r") as infile:
 		#
-		# Here I should call the checkTableFile function, if it doesn't give any error
-		# then I can proceed here with the upsert.
-		# So I'd just skip the header lines and continue with the for line in infile: ...
-		# but I still need to parse the information from the header... maybe just do it once
-		# by reading the first two lines and then starting the loop?
+		# TO-DO
+		# Here should read the first two lines (headers) only once,
+		# then going on with the loop over the rest of the file.
 		#
 		for line in infile:
 			# get keyColumns and the columnNames of the file
@@ -169,6 +163,7 @@ def loader(inputFile):
 	if args.saveSQL:
 		outfile.close()
 
+
 # Multiple file sorter and loader
 def sequenceLoad(fileNames, sequence):
 	"""
@@ -208,12 +203,14 @@ def sequenceLoad(fileNames, sequence):
 	for element in queue:
 		loader(element[1])
 
+
 # Close connection to database
 def closeConnection():
 	if conn is not None:
 		cursor.close()
 		conn.close()
 		print("\nDatabase connection closed.")
+
 
 # Delete all tables from the database
 def deleteTables(cursor):
@@ -239,6 +236,7 @@ def deleteTables(cursor):
 	conn.commit()
 	return 0	
 
+
 # Reload all tables from model.txt
 def reloadTables(modelsfile):
 	"""
@@ -250,6 +248,7 @@ def reloadTables(modelsfile):
 	print(comm.read())	# VERBOSE?
 
 	return 0
+
 
 
 # --- MAIN ---
