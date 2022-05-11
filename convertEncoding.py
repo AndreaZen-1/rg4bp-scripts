@@ -48,7 +48,7 @@ def convertEncoding(file, fromCodec):
 			# replace works as rename but replaces the destination file if already present
 			replace(file, "oldEncodeTables/" + file[:-4] + "_oldEnc.txt") # move old encoding file
 			rename("tmpfile", file) # rename new encoding as old one
-			print("The conversion was successful, the file {} should now be in a correct encoding.")
+			print("The conversion was successful, the file {} should now be in a correct encoding.".format(args.file))
 			exit(0)
 	
 	except UnicodeDecodeError:
@@ -70,13 +70,13 @@ if __name__ == "__main__":
  and it try to convert it in a working one.""", add_help=True)
 
 	# file to be converted
-	parser.add_argument('-f, --file', action='store', type=str, required=True,
+	parser.add_argument('-f','--file', action='store', type=str, required=True,
 		help="The table file to be checked.")
 	
 	args = parser.parse_args()
 	
 	# check that the passed file is correct
-	if not path.isfile(path):
+	if not path.isfile(args.file):
 		print("The provided file was not found, please check that the name was correct.")
 		exit(1)
 	else:
