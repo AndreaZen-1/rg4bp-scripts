@@ -18,6 +18,7 @@ pwd = ""
 host = "localhost"
 saveSQL = False
 
+
 # Sequence used to determine the tables order when loading from a folder.
 # The names are those of the table in the database, taken from the file header.
 sequence = ["reference",
@@ -41,12 +42,14 @@ sequence = ["reference",
 	"bindingsitetogene"]
 
 
+
 # --- IMPORTS ---
 
 from os import path, listdir, popen
 from sys import exit
 import argparse
 import psycopg2
+
 
 
 # --- FUNCTIONS ---
@@ -71,6 +74,7 @@ def executeQuery(cursor, sql, logSkip = False):
 		closeConnection()
 		exit(1)
 
+
 # Single table loader
 def loader(inputFile):
 	"""
@@ -89,6 +93,11 @@ def loader(inputFile):
 	print("")
 
 	with open(inputFile, "r") as infile:
+		#
+		# TO-DO
+		# Here should read the first two lines (headers) only once,
+		# then going on with the loop over the rest of the file.
+		#
 		for line in infile:
 			# get keyColumns and the columnNames of the file
 			if line.startswith('#'):
@@ -104,7 +113,8 @@ def loader(inputFile):
 				if runOnce == 0:
 					# checks presence of key and column headers
 					if len(keyColumns) == 0 or len(columnNames) == 0:
-						print("""\tERROR: No keys or columns were provided, please check that the file has:\n\t#tableName\tkey1\tkey2 etc.\n\t@column1\tcolumn2\column3 etc.\n""")
+						print("""\tERROR: No keys or columns were provided, please check that the file has:\n\t#tableName\tkey1\tkey2 etc.\n\t@column1\tcolumn2\column3 etc.""")
+						print("If everything seems okay with the file, the problem may be a wrong encoding.\nPlease refer to the convertEncoding.py script to automatically detect and alter the encoding of the table file and retry.\n")
 						exit(1)
 					
 					# checks that database table columns and provided ones are the same number
@@ -152,6 +162,7 @@ def loader(inputFile):
 	if args.saveSQL:
 		outfile.close()
 
+
 # Multiple file sorter and loader
 def sequenceLoad(fileNames, sequence):
 	"""
@@ -191,12 +202,14 @@ def sequenceLoad(fileNames, sequence):
 	for element in queue:
 		loader(element[1])
 
+
 # Close connection to database
 def closeConnection():
 	if conn is not None:
 		cursor.close()
 		conn.close()
 		print("\nDatabase connection closed.")
+
 
 # Delete all tables from the database
 def deleteTables(cursor):
@@ -222,6 +235,7 @@ def deleteTables(cursor):
 	conn.commit()
 	return 0	
 
+
 # Reload all tables from model.txt
 def reloadTables(modelsfile):
 	"""
@@ -233,6 +247,7 @@ def reloadTables(modelsfile):
 	print(comm.read())	# VERBOSE?
 
 	return 0
+
 
 
 # --- MAIN ---
