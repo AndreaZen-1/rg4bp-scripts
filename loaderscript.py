@@ -45,11 +45,10 @@ sequence = ["reference",
 
 # --- IMPORTS ---
 
-from os import path, listdir, popen, rename, mkdir, replace
+from os import path, listdir, popen
 from sys import exit
 import argparse
 import psycopg2
-from chardet import detect
 
 
 
